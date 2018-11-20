@@ -40,6 +40,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'debase'
   gem 'sqlite3', '1.3.13'
 end
 
@@ -52,7 +53,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  # for visual studio code
+  # for visual studio codegem
   gem 'ruby-debug-ide', '0.6.1'
   gem 'rubocop',  '0.60.0'
   gem 'ruby-lint', '2.3.1'
