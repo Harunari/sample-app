@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
   before_create :create_activation_digest  
@@ -28,11 +29,6 @@ class User < ApplicationRecord
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
-  end
-
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
   def forget
@@ -65,6 +61,10 @@ class User < ApplicationRecord
   def password_reset_expired?
     reset_sent_at < 2.hour.ago
   end  
+
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
   
   private
 
