@@ -12,7 +12,7 @@ class MicropostsController < ApplicationController
       render 'static_pages/home'
     end
   end
-  
+
   def destroy
     @micropost.destroy
     flash[:success] = "Micropost deleted"

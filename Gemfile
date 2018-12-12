@@ -65,6 +65,7 @@ group :development do
   gem 'reek', '5.2.0'
   gem 'fasterer', '0.4.1'
   gem 'debride', '1.8.1'
+  gem 'solargraph', '0.29.4'
 end
 
 group :test do
