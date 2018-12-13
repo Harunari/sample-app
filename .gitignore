@@ -34,3 +34,6 @@
 /spring/*.pid
 
 .vscode/settings.json
+
+# Ignore uploaded test image file
+/public/uploads
