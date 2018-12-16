@@ -44,3 +44,19 @@ van:
   content: "Dude, this van's, like, rolling probable cause."
   created_at: <%= 4.hours.ago %>
   user: lana
+
+<% 30.times do |n| %>
+replies_<%= n %>:
+  content: "@michael #{Faker::Lorem.sentence(5)}"
+  created_at: <%= 42.days.ago %>
+  in_reply_to: 0
+  user: lana
+<% end %>
+
+<% 30.times do |n| %>
+replies_<%= n %>:
+  content: "@other_user #{Faker::Lorem.sentence(5)}"
+  created_at: <%= 42.days.ago %>
+  in_reply_to: 10
+  user: lana
+<% end %>

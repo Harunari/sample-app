@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName">ApplicationRecord</span>
+      <span class="inheritName"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">ApplicationRecord</li>
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></li>
           
             <li class="next">User</li>
           
@@ -542,6 +544,12 @@
 
 
   
+  
+  
+  
+  
+  
+  
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
     
@@ -920,7 +928,7 @@
       <div class="method_details ">
   <h3 class="signature " id="feed-instance_method">
   
-    #<strong>feed</strong>  &#x21d2; <tt>Array&lt;Micropost&gt;</tt> 
+    #<strong>feed</strong>  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="Micropost.html" title="Micropost (class)">Micropost</a></span>&gt;</tt> 
   
 
   
@@ -940,7 +948,7 @@
     <li>
       
       
-        <span class='type'>(<tt>Array&lt;Micropost&gt;</tt>)</span>
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="Micropost.html" title="Micropost (class)">Micropost</a></span>&gt;</tt>)</span>
       
       
       
@@ -956,13 +964,21 @@
 
 78
 79
-80</pre>
+80
+81
+82
+83
+84</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'app/models/user.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_feed'>feed</span>
-  <span class='const'>Micropost</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_id = ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_following_ids'>following_ids</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT followed_id FROM relationships
+                  WHERE follower_id = :user_id</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='const'><span class='object_link'><a href="Micropost.html" title="Micropost (class)">Micropost</a></span></span><span class='period'>.</span><span class='id identifier rubyid_including_replies'><span class='object_link'><a href="Micropost.html#including_replies-class_method" title="Micropost.including_replies (method)">including_replies</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_id IN (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_following_ids'>following_ids</span><span class='embexpr_end'>}</span><span class='tstring_content'>)
+  OR user_id = :user_id OR NOT(in_reply_to IS NULL)</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>user_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -984,12 +1000,12 @@
       <pre class="lines">
 
 
-82
-83
-84</pre>
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_follow'>follow</span><span class='lparen'>(</span><span class='id identifier rubyid_other_user'>other_user</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_following'>following</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_other_user'>other_user</span>
@@ -1036,12 +1052,12 @@
       <pre class="lines">
 
 
-91
-92
-93</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_following?'>following?</span><span class='lparen'>(</span><span class='id identifier rubyid_other_user'>other_user</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_following'>following</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_other_user'>other_user</span><span class='rparen'>)</span>
@@ -1240,12 +1256,12 @@
       <pre class="lines">
 
 
-86
-87
-88</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unfollow'>unfollow</span><span class='lparen'>(</span><span class='id identifier rubyid_other_user'>other_user</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_active_relationships'>active_relationships</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>followed_id:</span> <span class='id identifier rubyid_other_user'>other_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_destroy'>destroy</span>
@@ -1260,7 +1276,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 12 21:16:20 2018 by
+  Generated on Sun Dec 16 16:02:23 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.16 (ruby-2.5.3).
 </div>

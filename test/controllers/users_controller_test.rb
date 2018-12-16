@@ -49,13 +49,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
                                     admin: true} }
     assert_not @other_user.admin?
   end
-  
+
   test 'should redirect update when logged in as wrong user' do
     log_in_as(@other_user)
     patch user_path(@user), params: { user: { name: @user.name,
                                               email: @user.email } }
     assert flash.empty?
-    assert_redirected_to root_url                                                  
+    assert_redirected_to root_url
   end
 
   test 'should redirect destroy when not logged in' do
@@ -82,5 +82,5 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get followers_user_path(@user)
     assert_redirected_to login_url
   end
-  
+
 end

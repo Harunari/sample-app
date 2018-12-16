@@ -4,8 +4,12 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(name: 'Example User', email: 'user@example.com',
-                     password: 'foobar', password_confirmation: 'foobar')
+    @user = User.new(name: 'Example User', identity_name: 'exapmle_user_1',
+                     email: 'user@example.com', password: 'foobar',
+                     password_confirmation: 'foobar')
+    @me = users(:michael)
+    @not_followed_user = users(:archer)
+    @followed_user = users(:lana)
   end
 
   test 'should be valid' do
@@ -83,12 +87,7 @@ class UserTest < ActiveSupport::TestCase
   test 'feed should have the right posts' do
     michael = users(:michael)
     archer = users(:archer)
-    lana = users(:lana)
 
-    # confirm microposts of following user
-    lana.microposts.each do |post_following|
-      assert michael.feed.include?(post_following)
-    end
     # confirm own microposts
     michael.microposts.each do |post_self|
       assert michael.feed.include?(post_self)
@@ -97,5 +96,25 @@ class UserTest < ActiveSupport::TestCase
     archer.microposts.each do |post_unfollowed|
       assert_not michael.feed.include?(post_unfollowed)
     end
+  end
+
+  test 'feed should not have non-reply micropost of not followed user' do
+    @not_followed_user.microposts.build(content: 'this isnt reply',
+                                        in_reply_to: nil)
+    assert_not @me.feed.map(&:content).include?('this isnt reply')
+  end
+
+  test 'feed should have a reply post even if it is tweeted by unfollowed user' do
+    reply_content = "@#{@me.identity_name} feafaefaadafdak"
+    @not_followed_user.microposts.build(content: reply_content,
+                                        in_reply_to: @me.id).save
+    assert @me.feed.map(&:content).include?(reply_content)
+  end
+
+  test 'feed should not have a reply post not to me even if user is following the sender' do
+    reply_content = "@#{@not_followed_user.identity_name} test micropost"
+    @followed_user.microposts.build(content: reply_content,
+                                    in_reply_to: @not_followed_user.id).save
+    assert_not @me.feed.map(&:content).include?(reply_content)
   end
 end

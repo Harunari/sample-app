@@ -62,7 +62,8 @@ class User < ApplicationRecord
 
   def create_reset_digest
     self.reset_token = User.new_token
-    update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+    update_columns(reset_digest: User.digest(reset_token),
+     reset_sent_at: Time.zone.now)
   end
 
   def send_password_reset_email
@@ -78,8 +79,9 @@ class User < ApplicationRecord
   def feed
     following_ids = "SELECT followed_id FROM relationships
                     WHERE follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids})
-    OR user_id = :user_id", user_id: id)
+
+    Micropost.including_replies(self).where("user_id IN (#{following_ids})
+    OR user_id = :user_id OR NOT(in_reply_to IS NULL)", user_id: id)
   end
 
   def follow(other_user)
