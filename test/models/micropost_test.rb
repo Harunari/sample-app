@@ -5,12 +5,18 @@ require 'test_helper'
 class MicropostTest < ActiveSupport::TestCase
   def setup
     @user = users(:michael)
+    @user.id = 1
+    @other_user = users(:archer)
+    @other_user.id = 2
     @micropost = @user.microposts.build(user_id: 1,
                                         content: 'Lorem ipsum',
                                         in_reply_to: nil)
     @reply_micropost = @user.microposts.build(user_id: 1,
-                                              content: '@archer1 testPost',
-                                              in_reply_to: 2)
+                                              content: "@#{@other_user.identity_name} testPost")
+    @reply_micropost.set_reply_id_from_content
+    @reply_post_from_other = @other_user.microposts.build(user_id: @other_user.id,
+                                                          content: "@#{@user.identity_name} test reply")
+    @reply_post_from_other.set_reply_id_from_content
   end
 
   test 'should be valid' do
@@ -36,24 +42,17 @@ class MicropostTest < ActiveSupport::TestCase
     assert_equal microposts(:most_recent), Micropost.first
   end
 
-  test 'should include post which is addressed to indicated user' do
-    posts_including_replies = Micropost.including_replies(@user)
-    posts_including_replies.each do |post|
-      assert_equal @user.id, post.in_reply_to unless post.in_reply_to.blank?
-    end
-  end
-
-  test 'should extract right identity name' do
-    assert_equal 'archer1', @reply_micropost.extract_identity_name
-  end
-
-  test 'should in_reply_to item is empty when id_name is nil' do
-    @micropost.insert_reply_id_from(@micropost.extract_identity_name)
+  test 'in_reply_to item should have nil when id_name is nil or not exist' do
+    @reply_nonexist_user = @user.microposts.build(user_id: @user.id,
+                                                  content: "@nonExist testPost")
+    @reply_nonexist_user.set_reply_id_from_content
+    @micropost.set_reply_id_from_content
+    assert @reply_nonexist_user.in_reply_to.nil?
     assert @micropost.in_reply_to.nil?
   end
 
-  test 'should in_reply_to item is present when id_name is present' do
-    @reply_micropost.insert_reply_id_from(@reply_micropost.extract_identity_name)
+  test 'in_reply_to item should have id when id_name is present' do
+    @reply_micropost.set_reply_id_from_content
     assert @reply_micropost.in_reply_to.present?
   end
 end

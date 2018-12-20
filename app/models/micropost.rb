@@ -2,33 +2,28 @@
 
 class Micropost < ApplicationRecord
   belongs_to :user
+  before_validation :set_reply_id_from_content
 
   default_scope -> { order(created_at: :desc) }
-
-  # @!method including_replies
-  #   @!scope class
-  #   @param [User]
-  #   @return [ActiveRecord::Relation]
-  scope :including_replies, ->(user) {
-    where('in_reply_to IS NULL OR in_reply_to = :user_id', user_id: user.id)
-  }
-
+  
   mount_uploader :picture, PictureUploader
   validates :user_id, presence: true
   validates :content, presence: true, length: { maximum: 140 }
   validate  :picture_size
 
-  # @return [String]
-  # @return [nil] incase identity_name isnt exist or discrimination it, return nil
-  def extract_identity_name
-    content[/@(\w+)/, 1]
+  #   @param [User]
+  #   @return [ActiveRecord::Relation]
+  def Micropost.including_replies(user)
+    where(in_reply_to: [user.id, nil]).or(Micropost.where(user_id: user.id))
   end
 
-  # @param [String]
-  # @return [Boolean]
-  def insert_reply_id_from(id_name)
-    if id_name.present?
-      self.in_reply_to = User.find_by(identity_name: id_name).id
+  def set_reply_id_from_content
+    id_name = content[/@(\w+)/, 1]
+    addressed_user = User.find_by(identity_name: id_name)
+    if addressed_user.present?
+      self.in_reply_to = addressed_user.id
+    else
+      self.in_reply_to = nil
     end
   end
 end

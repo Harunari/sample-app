@@ -117,4 +117,11 @@ class UserTest < ActiveSupport::TestCase
                                     in_reply_to: @not_followed_user.id).save
     assert_not @me.feed.map(&:content).include?(reply_content)
   end
+
+  test 'feed should have post which is myself to another' do
+    reply_content = "@#{@followed_user.identity_name} test micropost"
+    @me.microposts.build(content: reply_content,
+                         in_reply_to: @followed_user.id).save
+    assert @me.feed.map(&:content).include?(reply_content)
+  end
 end

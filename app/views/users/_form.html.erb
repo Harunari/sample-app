@@ -1,7 +1,7 @@
 <%= form_for(@user, url: yield(:url)) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
 
-  <%= f.label :identity_name, "id_name" %>
+  <%= f.label :identity_name, "Id_name" %>
   <%= f.text_field :identity_name, class: 'form-control' %>
 
   <%= f.label :name %>

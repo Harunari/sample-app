@@ -12,4 +12,10 @@ module ApplicationHelper
       page_title + ' | ' + base_title
     end
   end
+
+  # params [User]
+  # return [String]
+  def full_name(user)
+    "#{user.name}@#{user.identity_name}"
+  end
 end

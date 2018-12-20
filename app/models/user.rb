@@ -20,6 +20,9 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :identity_name, presence: true,
+                            length: { minimum: 3, maximum: 25 },
+                            uniqueness: { case_sensitive: false }
 
   class << self
     # 渡された文字列のハッシュ値を返す
@@ -45,6 +48,7 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  # @return [Boolean]
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
@@ -63,7 +67,7 @@ class User < ApplicationRecord
   def create_reset_digest
     self.reset_token = User.new_token
     update_columns(reset_digest: User.digest(reset_token),
-     reset_sent_at: Time.zone.now)
+                   reset_sent_at: Time.zone.now)
   end
 
   def send_password_reset_email
@@ -81,7 +85,8 @@ class User < ApplicationRecord
                     WHERE follower_id = :user_id"
 
     Micropost.including_replies(self).where("user_id IN (#{following_ids})
-    OR user_id = :user_id OR NOT(in_reply_to IS NULL)", user_id: id)
+    OR user_id = :user_id
+    OR NOT(in_reply_to IS NULL)", user_id: id)
   end
 
   def follow(other_user)

@@ -6,7 +6,6 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    @micropost.insert_reply_id_from(@micropost.extract_identity_name)
     if @micropost.save
       flash[:success] = 'Micropost created!'
       redirect_to root_url

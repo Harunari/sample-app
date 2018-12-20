@@ -1,9 +1,10 @@
 require 'test_helper'
 
 class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
-  
+
   def setup
     @user = users(:michael)
+    @other_user = users(:archer)
   end
 
   test "micropost interface" do
@@ -15,18 +16,20 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     post microposts_path, params: { micropost: { content: "" } }
     assert_select 'div#error_explanation'
     # Valid submit
-    content = "This micropost really ties the room together"
+    content = "@#{@other_user.identity_name}
+     This micropost really ties the room together"
     picture = fixture_file_upload('test/fixtures/rails.png', 'image/png')
     assert_difference 'Micropost.count', 1 do
       post microposts_path, params: { micropost: { content: content,
                                                    picture: picture } }
     end
+    first_micropost = @user.microposts.paginate(page: 1).first
+    assert_equal @other_user.id, first_micropost.in_reply_to
     assert_redirected_to root_url
     follow_redirect!
     assert_match content, response.body
     # Remove a micropost
     assert_select 'a', text: 'delete'
-    first_micropost = @user.microposts.paginate(page: 1).first
     assert_difference 'Micropost.count', -1 do
       delete micropost_path(first_micropost)
     end
