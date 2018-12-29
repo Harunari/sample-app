@@ -86,13 +86,14 @@ class User < ApplicationRecord
 
     Micropost.including_replies(self).where("user_id IN (#{following_ids})
     OR user_id = :user_id
-    OR NOT(in_reply_to IS NULL)", user_id: id)
+    OR in_reply_to = :user_id", user_id: id)
   end
 
   def follow(other_user)
     following << other_user
   end
 
+  # @return [Boolean]
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
   end

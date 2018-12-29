@@ -13,8 +13,8 @@ module ApplicationHelper
     end
   end
 
-  # params [User]
-  # return [String]
+  # @params [User]
+  # @return [String]
   def full_name(user)
     "#{user.name}@#{user.identity_name}"
   end
