@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
-    redirect_to root_url and return unless @user.activated == true
+    redirect_to(root_url) && return unless @user.activated == true
   end
 
   def new
@@ -52,14 +52,14 @@ class UsersController < ApplicationController
   end
 
   def following
-    @title = "Following"
+    @title = 'Following'
     @user = User.find(params[:id])
     @users = @user.following.paginate(page: params[:page])
     render 'show_follow'
   end
 
   def followers
-    @title = "Followers"
+    @title = 'Followers'
     @user = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'

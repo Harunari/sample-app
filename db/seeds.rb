@@ -42,3 +42,14 @@ following = users[2..50]
 followers = users[3..40]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+# message room
+users = User.all
+user = users.first
+addressed_users = users[2..50]
+addressed_users.each do |addressed_user|
+  user.message_rooms.create!(sender_id: user.id,
+                             receiver_id: addressed_user.id)
+  addressed_user.message_rooms.create!(sender_id: addressed_user.id,
+                                       receiver_id: user.id)
+end

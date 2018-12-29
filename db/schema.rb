@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_16_170152) do
+ActiveRecord::Schema.define(version: 2018_12_29_160445) do
+
+  create_table "message_rooms", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_message_rooms_on_receiver_id"
+    t.index ["sender_id", "receiver_id"], name: "index_message_rooms_on_sender_id_and_receiver_id", unique: true
+    t.index ["sender_id"], name: "index_message_rooms_on_sender_id"
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"

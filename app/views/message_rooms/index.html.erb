@@ -1,0 +1,10 @@
+<% provide(:title, 'All Messages') %>
+<h1>All Messages</h1>
+
+<%= will_paginate %>
+
+<ul class="message_rooms">
+    <%= render @message_rooms %>
+</ul>
+
+<%= will_paginate %>

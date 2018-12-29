@@ -1,0 +1,6 @@
+<li id="message_room-<%= message_room.id %>">
+  <%= link_to gravatar_for(message_room.receiver, size: 50), message_room.receiver %>
+  <span class="user">
+    <%= link_to full_name(message_room.receiver), message_room.receiver %>
+  </span>
+</li>

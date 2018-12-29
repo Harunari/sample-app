@@ -33,7 +33,7 @@ module SessionsHelper
 
   # @return [Boolean]
   def logged_in?
-    !current_user.nil?
+    current_user.present?
   end
 
   def forget(user)

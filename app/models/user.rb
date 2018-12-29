@@ -10,6 +10,10 @@ class User < ApplicationRecord
                                    dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :message_rooms, class_name: 'MessageRoom',
+                           foreign_key: 'sender_id',
+                           dependent: :destroy
+
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
   before_create :create_activation_digest
@@ -102,6 +106,11 @@ class User < ApplicationRecord
   def following?(other_user)
     following.include?(other_user)
   end
+
+  def create_dbroom(other_user)
+    self.message_rooms.build(receiver_id: other_user.id)
+  end
+  
 
   private
 
