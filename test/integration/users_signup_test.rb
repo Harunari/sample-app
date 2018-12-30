@@ -37,19 +37,19 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_not user.activated?
     # login while not activated.
     log_in_as(user)
-    assert_not is_logged_in?
+    assert_not logged_in?
     # token for activate account is invalid
     get edit_account_activation_path('invalid token', email: user.email)
-    assert_not is_logged_in?
+    assert_not logged_in?
     # In case token is right, but mail address is invalid
     get edit_account_activation_path(user.activation_token, email: 'wrong')
-    assert_not is_logged_in?
+    assert_not logged_in?
     # token for activation is right
     get edit_account_activation_path(user.activation_token, email: user.email)
     assert user.reload.activated?
     follow_redirect!
     assert_template 'users/show'
-    assert is_logged_in?
+    assert logged_in?
   end
 
   test 'signup forms' do

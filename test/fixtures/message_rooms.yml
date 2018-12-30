@@ -33,3 +33,15 @@ red:
   receiver: lana
   created_at: <%= 1.days.ago %>
   updated_at: <%= 10.minutes.ago %>
+
+blue:
+  sender: michael
+  receiver: ryoutarou
+  created_at: <%= 1.days.ago %>
+  updated_at: <%= 20.minutes.ago %>
+
+pink:
+  sender: ryoutarou
+  receiver: michael
+  created_at: <%= 1.days.ago %>
+  updated_at: <%= 20.minutes.ago %>
