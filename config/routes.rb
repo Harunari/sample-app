@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   resources :microposts,          only: %i[create destroy]
   resources :relationships,       only: %i[create destroy]
   resources :message_rooms,       only: %i[index show]
+  resources :direct_messages,     only: %i[create destory]
 end

@@ -1,0 +1,17 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section class="direct_message_form">
+      <%= form_for(@message) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <div class="field">
+          <%= f.text_area :content, placeholder: "Compose new direct message..." %>
+        </div>
+        <%= f.submit "Post", class: "btn btn-primary" %>
+      <% end %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3>Direct Message</h3>
+    
+  </div>
+</div>

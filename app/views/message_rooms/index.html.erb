@@ -1,13 +1,9 @@
 <% provide(:title, 'All Messages') %>
 <h1>All Messages</h1>
 
-<%= will_paginate %>
-
 <ul class="message_rooms">
     <%= render @message_rooms %>
 </ul>
-
-<%= will_paginate %>
 
 <script type="text/javascript">
   $('.message_rooms').on('click', e => {

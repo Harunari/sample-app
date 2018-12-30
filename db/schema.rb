@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_29_160445) do
+ActiveRecord::Schema.define(version: 2018_12_30_111016) do
+
+  create_table "direct_messages", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "message_room_id"
+  end
 
   create_table "message_rooms", force: :cascade do |t|
     t.integer "sender_id"
