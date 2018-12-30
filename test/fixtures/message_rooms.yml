@@ -1,0 +1,35 @@
+one:
+  sender: micheal
+  receiver: archer
+  created_at: <%= 3.days.ago %>
+  updated_at: <%= 3.days.ago %>
+
+two:
+  sender: archer
+  receiver: micheal
+  created_at: <%= 3.days.ago %>
+  updated_at: <%= 3.days.ago %>
+
+most_recent_michael:
+  sender: michael
+  receiver: lana
+  created_at: <%= 45.days.ago %>
+  updated_at: <%= Time.zone.now %>
+
+most_recent_2:
+  sender: lana
+  receiver: michael
+  created_at: <%= 45.days.ago %>
+  updated_at: <%= Time.zone.now %>
+
+orange:
+  sender: lana
+  receiver: archer
+  created_at: <%= 1.days.ago %>
+  updated_at: <%= 10.minutes.ago %>
+
+red:
+  sender: archer
+  receiver: lana
+  created_at: <%= 1.days.ago %>
+  updated_at: <%= 10.minutes.ago %>

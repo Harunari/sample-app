@@ -27,7 +27,7 @@ class MessageRoomsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should insert message room which is opposite' do
+  test 'should insert message room which is opposite when send dm' do
     log_in_as(@user)
     assert_difference "MessageRoom.count", 1 do
       # TODO post direct_message_path(@other_user)

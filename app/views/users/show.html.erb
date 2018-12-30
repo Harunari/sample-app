@@ -8,16 +8,14 @@
       </h1>
     </section>
     <section class="stats">
-      <%= render 'shared/stats' %>
-      <%
-=begin%>
-  TODO DM button
-<%
-=end%>
+      <%= render "shared/stats" %>
+    </section>
+    <section class="dm">
+      <%= render  "dm_button" %>
     </section>
   </aside>
   <div class="col-md-8">
-    <%= render 'follow_form' if logged_in? %>
+    <%= render "follow_form" if logged_in? %>
     <% if @user.microposts.any? %>
       <h3>Microposts (<%= @user.microposts.count %>)</h3>
       <ol class="microposts">

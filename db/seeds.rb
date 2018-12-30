@@ -18,10 +18,11 @@ User.create!(name: 'Example User',
 
 99.times do |n|
   name = Faker::Name.name
+  identity_name = Faker::Number.number(10)
   email = "example-#{n + 1}@railstutorial.org"
   password = 'password'
   User.create!(name: name,
-               identity_name: "#{name}_1",
+               identity_name: identity_name,
                email: email,
                password: password,
                password_confirmation: password,
@@ -46,7 +47,7 @@ followers.each { |follower| follower.follow(user) }
 # message room
 users = User.all
 user = users.first
-addressed_users = users[2..50]
+addressed_users = users[2..4]
 addressed_users.each do |addressed_user|
   user.message_rooms.create!(sender_id: user.id,
                              receiver_id: addressed_user.id)

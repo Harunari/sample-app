@@ -7,5 +7,8 @@ class MessageRoomsController < ApplicationController
     @message_rooms = current_user.message_rooms.paginate(page: params[:page])
   end
 
-  def show; end
+  def show
+    addressed_user = User.find(params[:id])
+    current_user.message_rooms.create(receiver: addressed_user)
+  end
 end
