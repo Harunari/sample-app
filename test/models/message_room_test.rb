@@ -23,8 +23,7 @@ class MessageRoomTest < ActiveSupport::TestCase
   end
 
   test 'order should be most recent updated first' do
-    assert_equal message_rooms(:most_recent_michael), MessageRoom
-      .where(sender_id: users(:michael).id).first
+    assert_equal message_rooms(:most_recent_michael), MessageRoom.first
   end
 
   test 'should not valid duplicate same combination of sender and receiver' do

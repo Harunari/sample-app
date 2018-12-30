@@ -1,4 +1,4 @@
-<% if logged_in? && current_user != @user %>
+<% if logged_in? && !current_user?(@user) %>
   <%= link_to  "Direct Message", message_room_path(@user),
   class: "btn btn-primary"%>
 <% end %>
