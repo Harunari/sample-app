@@ -2,18 +2,19 @@
 
 class Micropost < ApplicationRecord
   belongs_to :user
+  has_many :favorites, class_name: 'FavoriteMicropost', dependent: :destroy
+  has_many :subscribers, through: :favorites, source: :subscriber
   before_validation :set_reply_id_from_content
 
   default_scope -> { order(created_at: :desc) }
-  
   mount_uploader :picture, PictureUploader
   validates :user_id, presence: true
   validates :content, presence: true, length: { maximum: 140 }
   validate  :picture_size
 
-  #   @param [User]
+  #   @param user [User] the user object
   #   @return [ActiveRecord::Relation]
-  def Micropost.including_replies(user)
+  def self.including_replies(user)
     where(in_reply_to: [user.id, nil]).or(Micropost.where(user_id: user.id))
   end
 

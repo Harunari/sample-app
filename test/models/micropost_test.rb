@@ -8,6 +8,7 @@ class MicropostTest < ActiveSupport::TestCase
     @user.id = 1
     @other_user = users(:archer)
     @other_user.id = 2
+    @subscriber = users(:lana)
     @micropost = @user.microposts.build(user_id: 1,
                                         content: 'Lorem ipsum',
                                         in_reply_to: nil)
@@ -54,5 +55,12 @@ class MicropostTest < ActiveSupport::TestCase
   test 'in_reply_to item should have id when id_name is present' do
     @reply_micropost.set_reply_id_from_content
     assert @reply_micropost.in_reply_to.present?
+  end
+
+  test 'should include user only when the user subscribe this micropost' do
+    @subscriber.favorite(@micropost)
+    assert @micropost.subscribers.include?(@subscriber)
+    @subscriber.unfavorite(@micropost)
+    assert_not @micropost.subscribers.include?(@subscriber)
   end
 end

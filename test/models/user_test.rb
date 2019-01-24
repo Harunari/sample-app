@@ -10,6 +10,7 @@ class UserTest < ActiveSupport::TestCase
     @me = users(:michael)
     @not_followed_user = users(:archer)
     @followed_user = users(:lana)
+    @micropost = microposts(:orange)
   end
 
   test 'should be valid' do
@@ -123,5 +124,12 @@ class UserTest < ActiveSupport::TestCase
     @me.microposts.build(content: reply_content,
                          in_reply_to: @followed_user.id).save
     assert @me.feed.map(&:content).include?(reply_content)
+  end
+
+  test 'should subscribe and release favorite micropost' do
+    @user.favorite(@micropost)
+    assert @user.favorite_microposts.include?(@micropost)
+    @user.unfavorite(@micropost)
+    assert_not @user.favorite_microposts.include?(@micropost)
   end
 end

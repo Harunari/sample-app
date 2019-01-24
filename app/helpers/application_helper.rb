@@ -2,7 +2,7 @@
 
 module ApplicationHelper
   # ページごとの完全なタイトルを返します
-  # @param [String] Page Tite
+  # @param page_title [String] the page tite
   # @return [String] Return completion title
   def full_title(page_title = '')
     base_title = 'Ruby on Rails Tutorial Sample App'
@@ -13,7 +13,7 @@ module ApplicationHelper
     end
   end
 
-  # @params [User]
+  # @param user [User] the user object
   # @return [String]
   def full_name(user)
     "#{user.name}@#{user.identity_name}"
