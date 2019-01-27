@@ -8,9 +8,9 @@ class UserTest < ActiveSupport::TestCase
                      email: 'user@example.com', password: 'foobar',
                      password_confirmation: 'foobar')
     @me = users(:michael)
+    @micropost = microposts(:ants)
     @not_followed_user = users(:archer)
     @followed_user = users(:lana)
-    @micropost = microposts(:orange)
   end
 
   test 'should be valid' do
@@ -107,7 +107,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'feed should have a reply post even if it is tweeted by unfollowed user' do
     reply_content = "@#{@me.identity_name} feafaefaadafdak"
-    @not_followed_user.microposts.build(content: reply_content,
+    reply_post = @not_followed_user.microposts.build(content: reply_content,
                                         in_reply_to: @me.id).save
     assert @me.feed.map(&:content).include?(reply_content)
   end
@@ -126,10 +126,10 @@ class UserTest < ActiveSupport::TestCase
     assert @me.feed.map(&:content).include?(reply_content)
   end
 
-  test 'should subscribe and release favorite micropost' do
-    @user.favorite(@micropost)
-    assert @user.favorite_microposts.include?(@micropost)
-    @user.unfavorite(@micropost)
-    assert_not @user.favorite_microposts.include?(@micropost)
+  test 'subscribe and release favorite micropost' do
+    @me.favorite(@micropost)
+    assert @me.favorite?(@micropost)
+    @me.unfavorite(@micropost)
+    assert_not @me.favorite?(@micropost)
   end
 end

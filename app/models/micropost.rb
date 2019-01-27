@@ -2,7 +2,9 @@
 
 class Micropost < ApplicationRecord
   belongs_to :user
-  has_many :favorites, class_name: 'FavoriteMicropost', dependent: :destroy
+  has_many :favorites, class_name: 'FavoriteMicropost',
+                       foreign_key: 'micropost_id',
+                       dependent: :destroy
   has_many :subscribers, through: :favorites, source: :subscriber
   before_validation :set_reply_id_from_content
 
@@ -21,11 +23,7 @@ class Micropost < ApplicationRecord
   def set_reply_id_from_content
     id_name = content[/@(\w+)/, 1]
     addressed_user = User.find_by(identity_name: id_name)
-    if addressed_user.present?
-      self.in_reply_to = addressed_user.id
-    else
-      self.in_reply_to = nil
-    end
+    self.in_reply_to = (addressed_user.id if addressed_user.present?)
   end
 end
 

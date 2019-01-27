@@ -5,5 +5,5 @@ one:
   micropost_id: 1
 
 two:
-  subscriber_id: 2
-  micropost_id: 2
+  subscriber: michael
+  micropost: tau_manifesto

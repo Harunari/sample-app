@@ -30,6 +30,7 @@ class User < ApplicationRecord
 
   class << self
     # 渡された文字列のハッシュ値を返す
+    # @param string [String] clear text
     # @return [String]
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -52,6 +53,8 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  # @param attribute [String] the attribute
+  # @param token [String] the token
   # @return [Boolean]
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
@@ -93,15 +96,18 @@ class User < ApplicationRecord
     OR in_reply_to = :user_id", user_id: id)
   end
 
+  # @param other_user [User] the other user
   def follow(other_user)
     following << other_user
   end
 
+  # @param other_user [User] the other user
   # @return [Boolean]
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
   end
 
+  # @param other_user [User] the other user
   # @return [Boolean]
   def following?(other_user)
     following.include?(other_user)
@@ -113,8 +119,15 @@ class User < ApplicationRecord
   end
 
   # @param micropost [Micropost] the micropost object
+  # @return [Boolean]
   def unfavorite(micropost)
-    favorite_microposts.delete(micropost)
+    favorites.find_by(micropost_id: micropost.id).destroy
+  end
+
+  # @param micropost [Micropost]
+  # @return [Boolean]
+  def favorite?(micropost)
+    favorite_microposts.include?(micropost)
   end
 
   private

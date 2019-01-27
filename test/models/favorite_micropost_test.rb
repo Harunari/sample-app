@@ -13,14 +13,12 @@ class FavoriteMicropostTest < ActiveSupport::TestCase
   end
 
   test 'should be require micropost_id' do
-    fav = @favorite.clone
-    fav.micropost_id = nil
+    @favorite.micropost_id = nil
     assert_not @favorite.valid?
   end
 
   test 'should be require subscriber_id' do
-    fav = @favorite.clone
-    fav.subscriber_id = nil
-    assert_not fav.valid?
+    @favorite.subscriber_id = nil
+    assert_not @favorite.valid?
   end
 end

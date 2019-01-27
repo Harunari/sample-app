@@ -84,4 +84,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get followers_user_path(@user)
     assert_redirected_to login_url
   end
+
+  test 'should redirect favorites when not logged in' do
+    get favorite_microposts_user_path(@user)
+    assert_redirected_to login_url
+  end
 end

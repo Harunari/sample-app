@@ -1,0 +1,5 @@
+<% if current_user.favorite?(micropost) %>
+  <%= render  "microposts/subscribed" %>
+<% else %>
+  <%= render  "microposts/not_subscribed" %>
+<% end %>

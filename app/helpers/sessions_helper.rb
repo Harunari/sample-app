@@ -2,16 +2,20 @@
 
 module SessionsHelper
   # 渡されたユーザーでログインする
+  # @ param user [User]
   def log_in(user)
     session[:user_id] = user.id
   end
 
+  # @ param user [User]
   def remember(user)
     user.remember
-    cookies.permanent.signed[:user_id] = user.id
-    cookies.permanent[:remember_token] = user.remember_token
+    cp = cookies.permanent
+    cp.signed[:user_id] = user.id
+    cp[:remember_token] = user.remember_token
   end
 
+  # @ param user [User]
   # @return [Boolean]
   def current_user?(user)
     user == current_user
@@ -24,7 +28,7 @@ module SessionsHelper
       @current_user ||= User.find_by(id: session[:user_id])
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
-      if user&.authenticated?(:remember, cookies[:remember_token])
+      if user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end
@@ -33,9 +37,10 @@ module SessionsHelper
 
   # @return [Boolean]
   def logged_in?
-    !current_user.nil?
+    current_user.present?
   end
 
+  # @ param user [User]
   def forget(user)
     user.forget
     cookies.delete(:user_id)

@@ -279,6 +279,57 @@ input {
     margin-right: 10px;
     margin-top: 5px;
   }
+  .actions {
+    position: relative;
+    .not-favorite {
+      width: 10rem!important;
+      height: 10rem!important;
+      padding: 1rem!important;
+      padding: 2px 4px!important;
+      outline: 0!important;
+      border: 0px!important;
+      position: absolute!important;
+      left: 10rem!important;
+      top: -4rem!important;
+      transform: translate(-50%, -50%);
+      background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
+      background-position: 0 0;
+      transform:scale(0.5)
+    }
+    .not-favorite:hover {
+      background-position: -2800px 0;
+      transition: background 1s steps(28);
+    }
+    @keyframes fave-not-avorite {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: -2800px 0;
+      }
+    }
+    .favorite {
+      width: 10rem!important;
+      height: 10rem!important;
+      padding: 1rem!important;
+      padding: 2px 4px!important;
+      outline: 0!important;
+      border: 0px!important;
+      position: absolute!important;
+      left: 10rem!important;
+      top: -4rem!important;
+      transform: translate(-50%, -50%);
+      background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
+      background-position: -2800px 0;
+      transform:scale(0.5)
+    }
+    .favorite-count {
+      position: absolute;
+      left: 16.5rem!important;
+      top: 0rem!important;
+      color: gray;
+    }
+  }
 }
 
 aside {
