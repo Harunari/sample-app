@@ -1,5 +1,10 @@
-<% if current_user.favorite?(micropost) %>
-  <%= render  "microposts/subscribed" %>
-<% else %>
-  <%= render  "microposts/not_subscribed" %>
-<% end %>
+<div id="favorite-btn-<%= micropost.id %>" class="favorite-btns">
+  <% if current_user.favorite?(micropost) %>
+    <%= render  "microposts/subscribed", micropost: micropost %>
+  <% else %>
+    <%= render  "microposts/not_subscribed", micropost: micropost %>
+  <% end %>
+</div>
+<div id="favorite-count-<%= micropost.id %>" class="favorite-counts">
+  <%= render  "microposts/favorite_count", micropost: micropost %>
+<div>

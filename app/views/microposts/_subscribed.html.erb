@@ -1,4 +1,4 @@
-<%= form_for(@micropost.favorites.build) do |f| %>
-  <div><%= hidden_field_tag :micropost_id, @micropost.id %></div>
-  <%= f.submit "", class: "not-favorite"%>
+<%= form_for(micropost.favorites.find_by(micropost_id: micropost.id),
+    html: { method: :delete }, remote: true) do |f| %>
+  <%= f.submit "", class: "favorite"%>
 <% end %>

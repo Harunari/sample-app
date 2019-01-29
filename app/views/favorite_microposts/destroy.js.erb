@@ -1,5 +1,4 @@
-$("#favorite-btn-<%= @micropost.id %>")
-  .html("<%= escape_javascript(render('microposts/subscribed',micropost: @micropost)) %>");
+$("#favorite-btn-<%= @micropost.id %>").html("<%= escape_javascript(render('microposts/not_subscribed', micropost: @micropost)) %>");
 $("#favorite-count-<%= @micropost.id %>")
   .html("<%= escape_javascript(render('microposts/favorite_count', micropost: @micropost)) %>");
 $("#favorites").html('');

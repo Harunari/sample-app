@@ -14,25 +14,7 @@
           <%= link_to "delete", micropost, method: :delete,
                                           data: { confirm: "You sure?" } %>
       <% end %>
-      <div class="favorite-btn">
-        <% if current_user.favorite?(micropost) %>
-          <%= form_for(micropost.favorites.find_by(micropost_id: micropost.id),
-            html: { method: :delete }, remote: true) do |f| %>
-            <%= f.submit "", class: "favorite"%>
-          <% end %>
-        <% else %>
-          <%= form_for(micropost.favorites.build, remote: true) do |f| %>
-            <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
-            <%= f.submit "", class: "not-favorite"%>
-          <% end %>
-        <% end %>
-        <% fav_count = micropost.favorites.count %>
-        <% if fav_count > 0 %>
-          <div class="favorite-count">
-            <%= micropost.favorites.count %>
-          </div>
-        <% end %>
-      </div>
+      <%= render  "microposts/subscribe_form", micropost: micropost %>
     </div>
   </span>
 </li>

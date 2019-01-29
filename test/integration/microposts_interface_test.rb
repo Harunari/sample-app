@@ -39,7 +39,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_select 'input.favorite'
-    assert_select 'div.favorite-count'
+    assert_select 'div.favorite-counts'
 
     # Remove a micropost
     assert_select 'a', text: 'delete'
