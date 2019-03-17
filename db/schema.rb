@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_01_24_140036) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "favorite_microposts", force: :cascade do |t|
     t.integer "subscriber_id"
     t.integer "micropost_id"
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_01_24_140036) do
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "picture"
@@ -61,4 +64,5 @@ ActiveRecord::Schema.define(version: 2019_01_24_140036) do
     t.index ["identity_name"], name: "index_users_on_identity_name", unique: true
   end
 
+  add_foreign_key "microposts", "users"
 end
